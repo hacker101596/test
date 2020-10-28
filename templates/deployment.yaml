@@ -1,0 +1,37 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: workspace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: workspace
+  template:
+    metadata:
+      labels:
+        app: workspace 
+      #annotations:
+       # timestamp: "{{ date "20060102150405" .Release.Time }}"
+    spec:
+      imagePullSecrets: 
+        - name: 'primeroedgedevacr1089e0c5-auth'
+      containers:
+        - name: workspace 
+          image: primeroedgedevacr.azurecr.io/workspace:latest
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 5000
+          env:
+          - name: "ASPNETCORE_ENVIRONMENT"
+            value:  {{ .Values.env }}
+          - name: "AppEnv"
+            value:  {{ .Values.namespace }}
+          volumeMounts:
+          - name: secrets
+            mountPath: /app/secrets
+            readOnly: true
+      volumes:
+        - name: secrets
+          secret:
+            secretName: {{ .Values.secretname }}

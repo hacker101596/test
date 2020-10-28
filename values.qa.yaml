@@ -1,0 +1,4 @@
+host: qaworkspaceservice.perseusedge.com
+namespace: qa
+secretname: workspace-qa-secret-appsetting
+env: qa

@@ -1,0 +1,4 @@
+host: devworkspaceservice.perseusedge.com
+namespace: dev
+secretname: 123
+env: dev
